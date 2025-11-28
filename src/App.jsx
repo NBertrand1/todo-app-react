@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { Analytics } from "@vercel/analytics/next"
 //import img from "./assets/img.jpg"
 
 function App() {
   
   //variables et leur state 
-const [todos, setTodos] = useState([{ name: "", description: "", priority: 0, statut: ""}]);
-const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: 0, statut: ""});
+const [todos, setTodos] = useState([{ name: "", description: "", priority: {}, statut: ""}]);
+const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: {}, statut: ""});
 
 
   //comportements
@@ -13,7 +14,7 @@ const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: 0,
     event.preventDefault();
     const taskToAdd = {...newTodo, id: Date.now()};
     setTodos([...todos, taskToAdd]);
-    setNewTodo({ name: "", description: "", priority: 0, statut: ""});
+    setNewTodo({ name: "", description: "", priority: '', statut: ""});
   }
 
   const handleChange = (event) =>{
@@ -28,8 +29,8 @@ const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: 0,
         <header>
           <h1 className='text-4xl text-center p-2 mt-4 font-bold'>To-do App</h1>
         </header>    
-        
         {/* Liste des tâches */}
+        {todos.length > 0 &&(
         <ul className="grid grid-cols-1 gap-4 md: w-2xl justify-center">
           {todos.map((todo) => (
             <li key={todo.id}>
@@ -38,20 +39,19 @@ const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: 0,
                   <h2 className="text-xl font-bold">{todo.name}</h2>
                   <p className="text-gray-600">{todo.description}</p>
                   <div className='flex gap-3 mt-2 text-sm'>
-                    <span className="badge badge-primary">Priorité: {todo.priority}</span>
-                    <span className="badge badge-secondary">{todo.statut}</span>
+                    <span className="badge badge-primary">Priorité: {typeof todo.priority === 'number' && !isNaN(todo.priority) ? todo.priority : 'Non défini'}</span>
+                    <span className="badge badge-secondary">{todo.statut || "Statut non défini"}</span>
                   </div>
                 </div>
-                <div></div>
               </article>
             </li>
           ))}
         </ul>
-
+        )}
         {/* Formulaire d'ajout */}
-        <form onSubmit={handleSubmit} className='place-items-center p-4 bg-gray-100 rounded-xl m-4 md: w-xl'>
+        <form onSubmit={handleSubmit} className='place-items-center p-4 bg-gray-100 rounded-xl m-4 md:w-xl'>
           <section className='space-y-2 flex flex-col w-full max-w-md mx-auto'>
-            {/* Ajout de l'attribut name="..." indispensable pour handleChange */}
+            {/* The name attribute is indispensable for handleChange because it allows the function to dynamically update the corresponding property in the state object based on the input field's name. */}
             <input 
               type="text" 
               name="name" 
@@ -76,15 +76,20 @@ const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: 0,
               value={newTodo.priority} 
               onChange={handleChange} 
               placeholder='Priorité' 
-            />
-            <input 
-              type="text" 
+              min="1" 
+              />
+            <select 
               name="statut" 
-              className='input input-bordered w-full' 
+              className='select select-bordered w-full' 
               value={newTodo.statut} 
               onChange={handleChange} 
-              placeholder='Statut' 
-            />
+              required
+            >
+              <option value="" disabled>Choisir un statut</option>
+              <option value="En cours">En cours</option>
+              <option value="Terminé">Terminé</option>
+              <option value="À faire">À faire</option>
+            </select>
           </section>
           
           <div className="flex justify-center mt-4">
@@ -96,7 +101,6 @@ const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: 0,
       </section>
     </>
   )
-
 }
 
 export default App
