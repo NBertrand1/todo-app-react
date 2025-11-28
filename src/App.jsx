@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { Analytics } from "@vercel/analytics/next"
-//import img from "./assets/img.jpg"
 
 function App() {
   
   //variables et leur state 
-const [todos, setTodos] = useState([{ name: "", description: "", priority: {}, statut: ""}]);
-const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: {}, statut: ""});
+const [todos, setTodos] = useState([]);
+const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: '', statut: "" });
 
 
   //comportements
