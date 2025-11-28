@@ -37,7 +37,7 @@ const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: ''
                   <h2 className="text-xl font-bold">{todo.name}</h2>
                   <p className="text-gray-600">{todo.description}</p>
                   <div className='flex gap-3 mt-2 text-sm'>
-                    <span className="badge badge-primary">Priorité: {typeof todo.priority === 'number' && !isNaN(todo.priority) ? todo.priority : 'Non défini'}</span>
+                    <span className="badge badge-primary">Priorité: {todo.priority}</span>
                     <span className="badge badge-secondary">{todo.statut || "Statut non défini"}</span>
                   </div>
                 </div>
