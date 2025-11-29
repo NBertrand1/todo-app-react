@@ -1,10 +1,8 @@
-
 function TodoList({ todos, onDelete, onEdit }) {
-
-    
 
     return (
         <div>
+            <input type="search" name="search-bar" id="" placeholder="Rechercher une tache" className="ml-5 rounded-2xl p-4 border-s-amber-950" />
             {/* Liste des tâches */}
             {todos.length > 0 && (
                 <ul className="grid grid-cols-1 gap-4 md: w-2xl justify-center">
