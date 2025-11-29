@@ -1,14 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function TodoForm({ onAdd }) {
+function TodoForm({ onAdd, editingTodo, onUpdate }) {
 
   const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: '', statut: "" });
+
+  // Populate form when editingTodo changes
+  useEffect(() => {
+    if (editingTodo) {
+      setNewTodo(editingTodo);
+    } else {
+      setNewTodo({ name: "", description: "", priority: '', statut: "" });
+    }
+  }, [editingTodo]);
 
   //comportements
   const handleSubmit = (event) => {
     event.preventDefault();
-    const taskToAdd = { ...newTodo, id: Date.now() };
-    onAdd(taskToAdd);
+
+    if (editingTodo) {
+      onUpdate(newTodo);
+    } else {
+      const taskToAdd = { ...newTodo, id: Date.now() };
+      onAdd(taskToAdd);
+    }
+
     setNewTodo({ name: "", description: "", priority: '', statut: "" });
   }
 
@@ -64,8 +79,8 @@ function TodoForm({ onAdd }) {
         </section>
 
         <div className="flex justify-center mt-4">
-          <button type="submit" className='btn btn-primary'>
-            + Ajouter une tâche
+          <button type="submit" className={`btn ${editingTodo ? 'btn-info' : 'btn-primary'}`}>
+            {editingTodo ? 'Modifier la tâche' : '+ Ajouter une tâche'}
           </button>
         </div>
       </form>

@@ -1,4 +1,8 @@
-function TodoList({ todos }) {
+
+function TodoList({ todos, onDelete, onEdit }) {
+
+    
+
     return (
         <div>
             {/* Liste des tâches */}
@@ -6,7 +10,7 @@ function TodoList({ todos }) {
                 <ul className="grid grid-cols-1 gap-4 md: w-2xl justify-center">
                     {todos.map((todo) => (
                         <li key={todo.id}>
-                            <article className='border-amber-700 rounded-2xl p-4 m-4 border-2 flex place-items-center  bg-base-100 shadow-xl'>
+                            <article className='border-amber-700 rounded-2xl p-4 m-4 border-2 flex place-items-center justify-between bg-base-100 shadow-xl'>
                                 <div className='flex flex-col w-full'>
                                     <h2 className="text-xl font-bold">{todo.name}</h2>
                                     <p className="text-gray-600">{todo.description}</p>
@@ -14,6 +18,20 @@ function TodoList({ todos }) {
                                         <span className="badge badge-primary">Priorité: {todo.priority}</span>
                                         <span className="badge badge-secondary">{todo.statut || "Statut non défini"}</span>
                                     </div>
+                                </div>
+                                <div className="flex flex-col gap-2 ml-4">
+                                    <button
+                                        className="btn btn-sm btn-info"
+                                        onClick={() => onEdit(todo)}
+                                    >
+                                        Modifier
+                                    </button>
+                                    <button
+                                        className="btn btn-sm btn-error"
+                                        onClick={() => onDelete(todo.id)}
+                                    >
+                                        Supprimer
+                                    </button>
                                 </div>
                             </article>
                         </li>
