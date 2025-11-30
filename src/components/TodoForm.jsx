@@ -35,7 +35,7 @@ function TodoForm({ onAdd, editingTodo, onUpdate }) {
   return (
     <>
       {/* Formulaire d'ajout */}
-      <form onSubmit={handleSubmit} className='place-items-center p-4 bg-gray-100 rounded-xl m-4 md:w-xl'>
+      <form onSubmit={handleSubmit} className='place-items-center p-4 bg-gray-100 rounded-xl m-4 md:w-x2l'>
         <section className='space-y-2 flex flex-col w-full max-w-md mx-auto'>
           {/* The name attribute is indispensable for handleChange because it allows the function to dynamically update the corresponding property in the state object based on the input field's name. */}
           <input

@@ -42,16 +42,16 @@ function App() {
           <h1 className='text-4xl text-center p-2 mt-4 font-bold'>To-do App</h1>
         </header>
         <p className='text-center text-gray-600'>Ajoutez vos tâches et garez-les en mémoire avec notre application To-do.</p>
-        <div className='flex gap-4 m-8'>
-          <TodoForm
-            onAdd={handleAddTodo}
-            editingTodo={editingTodo}
-            onUpdate={handleUpdateTodo}
-          />
+        <div className='flex flex-col gap-4 m-8'>
           <TodoList
             todos={todos}
             onDelete={handleDeleteTodo}
             onEdit={handleEditTodo}
+          />
+          <TodoForm
+            onAdd={handleAddTodo}
+            editingTodo={editingTodo}
+            onUpdate={handleUpdateTodo}
           />
         </div>
       </section>
