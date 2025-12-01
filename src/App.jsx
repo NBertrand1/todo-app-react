@@ -10,6 +10,7 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
   const [editingTodo, setEditingTodo] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Save to LocalStorage whenever todos change
   useEffect(() => {
@@ -20,6 +21,15 @@ function App() {
   const handleAddTodo = (taskToAdd) => {
     setTodos([...todos, taskToAdd]);
   }
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  }
+
+  const filteredTodos = todos.filter(todo =>
+    todo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    todo.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter(todo => todo.id !== id));
@@ -44,9 +54,10 @@ function App() {
         <p className='text-center text-gray-600'>Ajoutez vos tâches et garez-les en mémoire avec notre application To-do.</p>
         <div className='flex flex-col gap-4 m-8'>
           <TodoList
-            todos={todos}
+            todos={filteredTodos}
             onDelete={handleDeleteTodo}
             onEdit={handleEditTodo}
+            onSearch={handleSearch}
           />
           <TodoForm
             onAdd={handleAddTodo}
