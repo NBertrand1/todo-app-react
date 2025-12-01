@@ -8,7 +8,7 @@ function TodoList({ todos, onDelete, onEdit, onSearch }) {
                     name="search-bar"
                     id=""
                     placeholder="Rechercher une tache"
-                    className="ml-5 shadow-xl p-2 border-s-amber-950 md:w-135"
+                    className="ml-5 shadow-xl p-4 border-s-amber-950 md:w-135"
                     onChange={(e) => onSearch(e.target.value)}
                 />
             </div>

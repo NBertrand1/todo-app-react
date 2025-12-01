@@ -11,11 +11,22 @@ function App() {
   });
   const [editingTodo, setEditingTodo] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   // Save to LocalStorage whenever todos change
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
+
+  // Theme management
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === "light" ? "dark" : "light");
+  };
 
   //comportements
   const handleAddTodo = (taskToAdd) => {
@@ -48,8 +59,11 @@ function App() {
   return (
     <>
       <section className="container mx-auto place-items-center">
-        <header>
-          <h1 className='text-4xl text-center p-2 mt-4 font-bold'>To-do App</h1>
+        <header className="flex justify-between items-center w-full max-w-2xl p-4 mt-4">
+          <h1 className='text-4xl font-bold'>To-do App</h1>
+          <button className="btn btn-circle btn-ghost" onClick={toggleTheme}>
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
         </header>
         <p className='text-center text-gray-600'>Ajoutez vos tâches et garez-les en mémoire avec notre application To-do.</p>
         <div className='flex flex-col gap-4 m-8'>
