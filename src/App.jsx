@@ -66,7 +66,7 @@ function App() {
           </button>
         </header>
         <p className='text-center text-gray-600'>Ajoutez vos tâches et garez-les en mémoire avec notre application To-do.</p>
-        <div className='flex flex-col gap-4 p-4 md:p-8'>
+        <div className='flex flex-col gap-4 p-4 md:p-8 w-full max-w-4xl'>
           <TodoList
             todos={filteredTodos}
             onDelete={handleDeleteTodo}
