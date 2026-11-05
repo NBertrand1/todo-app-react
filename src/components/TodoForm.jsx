@@ -1,92 +1,68 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react'
 
-function TodoForm({ onAdd, editingTodo, onUpdate }) {
+const emptyTodo = { name: '', description: '', priority: '', statut: 'À faire' }
 
-  const [newTodo, setNewTodo] = useState({ name: "", description: "", priority: '', statut: "" });
+function TodoForm({ onAdd, editingTodo, onUpdate, onCancel }) {
+  const [newTodo, setNewTodo] = useState(emptyTodo)
 
-  // Populate form when editingTodo changes
   useEffect(() => {
-    if (editingTodo) {
-      setNewTodo(editingTodo);
-    } else {
-      setNewTodo({ name: "", description: "", priority: '', statut: "" });
-    }
-  }, [editingTodo]);
+    setNewTodo(editingTodo ? { ...emptyTodo, ...editingTodo } : emptyTodo)
+  }, [editingTodo])
 
-  //comportements
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (editingTodo) {
-      onUpdate(newTodo);
-    } else {
-      const taskToAdd = { ...newTodo, id: Date.now() };
-      onAdd(taskToAdd);
-    }
-
-    setNewTodo({ name: "", description: "", priority: '', statut: "" });
+  const handleChange = event => {
+    const { name, value } = event.target
+    setNewTodo(current => ({ ...current, [name]: value }))
   }
 
+  const handleSubmit = event => {
+    event.preventDefault()
+    const cleanedTodo = {
+      ...newTodo,
+      name: newTodo.name.trim(),
+      description: newTodo.description.trim(),
+      priority: newTodo.priority === '' ? '' : Number(newTodo.priority),
+    }
+    if (!cleanedTodo.name) return
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setNewTodo(prevTodo => ({ ...prevTodo, [name]: value }));
-  };
+    if (editingTodo) onUpdate(cleanedTodo)
+    else onAdd({ ...cleanedTodo, id: Date.now() })
+
+    setNewTodo(emptyTodo)
+  }
 
   return (
-    <>
-      {/* Formulaire d'ajout */}
-      <form onSubmit={handleSubmit} className='place-items-center p-4 bg-gray-600 rounded-xl mx-auto m-4 w-full md:max-w-2xl'>
-        <section className='space-y-2 flex flex-col w-full max-w-md mx-auto'>
-          {/* The name attribute is indispensable for handleChange because it allows the function to dynamically update the corresponding property in the state object based on the input field's name. */}
-          <input
-            type="text"
-            name="name"
-            className='input input-bordered w-full'
-            value={newTodo.name}
-            onChange={handleChange}
-            placeholder='Nom de la tâche'
-            required
-          />
-          <input
-            type="text"
-            name="description"
-            className='input input-bordered w-full'
-            value={newTodo.description}
-            onChange={handleChange}
-            placeholder='Description de la tâche'
-          />
-          <input
-            type="number"
-            name="priority"
-            className='input input-bordered w-full'
-            value={newTodo.priority}
-            onChange={handleChange}
-            placeholder='Priorité'
-            min="1"
-          />
-          <select
-            name="statut"
-            className='select select-bordered w-full'
-            value={newTodo.statut}
-            onChange={handleChange}
-            required
-          >
-            <option value="" disabled>Choisir un statut</option>
-            <option value="En cours">En cours</option>
-            <option value="Terminé">Terminé</option>
-            <option value="À faire">À faire</option>
-          </select>
-        </section>
-
-        <div className="flex justify-center mt-4">
-          <button type="submit" className={`btn ${editingTodo ? 'btn-info' : 'btn-primary'}`}>
-            {editingTodo ? 'Modifier la tâche' : '+ Ajouter une tâche'}
-          </button>
+    <form onSubmit={handleSubmit} className="mx-auto my-4 w-full rounded-xl bg-base-200 p-4 sm:p-6">
+      <h2 className="mb-4 text-lg font-bold">{editingTodo ? 'Modifier la tâche' : 'Ajouter une tâche'}</h2>
+      <section className="mx-auto flex w-full max-w-xl flex-col gap-3">
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Nom de la tâche *</span>
+          <input type="text" name="name" className="input input-bordered w-full" value={newTodo.name} onChange={handleChange} placeholder="Ex. Préparer le rapport" maxLength={100} required />
+        </label>
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Description</span>
+          <textarea name="description" className="textarea textarea-bordered w-full" value={newTodo.description} onChange={handleChange} placeholder="Détails facultatifs" rows="2" maxLength={500} />
+        </label>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <label className="form-control w-full">
+            <span className="label-text mb-1">Priorité</span>
+            <input type="number" name="priority" className="input input-bordered w-full" value={newTodo.priority} onChange={handleChange} placeholder="1 = élevée" min="1" max="5" />
+          </label>
+          <label className="form-control w-full">
+            <span className="label-text mb-1">Statut</span>
+            <select name="statut" className="select select-bordered w-full" value={newTodo.statut} onChange={handleChange} required>
+              <option value="À faire">À faire</option>
+              <option value="En cours">En cours</option>
+              <option value="Terminé">Terminé</option>
+            </select>
+          </label>
         </div>
-      </form>
-    </>
-  );
+      </section>
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
+        <button type="submit" className="btn btn-primary">{editingTodo ? 'Enregistrer' : '+ Ajouter'}</button>
+        {editingTodo && <button type="button" className="btn btn-ghost" onClick={onCancel}>Annuler</button>}
+      </div>
+    </form>
+  )
 }
 
-export default TodoForm;
+export default TodoForm
