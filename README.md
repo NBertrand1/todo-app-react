@@ -1,16 +1,68 @@
-# React + Vite
+# Todo App React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Application de gestion personnelle des tâches | Personal task manager**
 
-Currently, two official plugins are available:
+## Français
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Cette application React permet de créer et organiser une liste de tâches dans le navigateur.
 
-## React Compiler
+### Fonctionnalités
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Ajouter une tâche avec nom, description, priorité et statut
+- Modifier ou supprimer une tâche
+- Rechercher dans les noms et descriptions
+- Consulter un résumé du nombre de tâches et des tâches terminées
+- Basculer entre les thèmes clair et sombre
+- Conserver les tâches et le thème dans le stockage local du navigateur (LocalStorage)
 
-## Expanding the ESLint configuration
+**Limite actuelle :** les données restent dans le navigateur utilisé. Il n'y a pas de compte utilisateur, de synchronisation cloud ou de backend.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Technologies
+
+- React
+- Vite
+- Tailwind CSS
+- DaisyUI
+- LocalStorage
+
+### Installation
+
+```bash
+npm install
+npm run dev
+```
+
+Vérifications disponibles :
+
+```bash
+npm run lint
+npm run build
+```
+
+## English
+
+A React task manager that lets users create and organize tasks in their browser.
+
+### Features
+
+- Add tasks with a name, description, priority, and status
+- Edit and delete tasks
+- Search task names and descriptions
+- View task totals and completed-task counts
+- Switch between light and dark themes
+- Persist tasks and theme in browser LocalStorage
+
+**Current limitation:** data is stored only in the current browser. There is no user account, cloud synchronization, or backend.
+
+### Stack
+
+React, Vite, Tailwind CSS, DaisyUI, and LocalStorage.
+
+### Setup
+
+```bash
+npm install
+npm run dev
+npm run lint
+npm run build
+```
